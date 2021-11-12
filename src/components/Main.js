@@ -34,9 +34,15 @@ const style = {
 const Main = () => {
   const [resp, setResp] = useState([]);
   const [users, setUsers] = useState([0]);
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [open1, setOpen1] = useState(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
+  const [ids,setIds] = useState([]);
 
   const fetchData = async () => {
     await axios
@@ -58,6 +64,7 @@ const Main = () => {
 
   const deleteRow = (id) => {
     setResp(resp.filter((usr) => usr.id !== id));
+    handleClose1()
   };
 
   return (
@@ -115,7 +122,7 @@ const Main = () => {
                   </TableCell>
                   <TableCell align="center">
                     <Button
-                      onClick={() => deleteRow(row.id)}
+                      onClick={() => {setIds(row.id);handleOpen1()}}
                       variant="contained"
                       color="error"
                       startIcon={<DeleteIcon />}
@@ -136,47 +143,81 @@ const Main = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        
         <Box sx={style}>
-          <Typography id="modal-modal-title">
+          <Typography id="modal-modal-title" variant="h4" component="h4" align="center">
             <span className="head1">{users.username}</span>
-            {console.log(users)}
+            {/* {console.log(users)} */}
           </Typography>
-          <Grid container spacing={6}>
-            <Grid item spacing={6}>
-              <Typography id="modal-modal-description">
-                <span className="head3"> Name :</span>
+          <Grid container spacing={12}>
+            <Grid item md={6}>
+              <Typography id="modal-modal-description" align="left" variant="h6" component="h6">
+                Name :
               </Typography>
             </Grid>
-            <Grid item spacing={6}>
+            <Grid item md={6}>
+              <Typography id="modal-modal-description" variant="subtitle1">
               {users.name}
+              </Typography>
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid item spacing={6}>
-              <Typography id="modal-modal-description">
-                <span className="head3"> Email :</span>
+          <Grid container spacing={12}>
+            <Grid item md={6}>
+              <Typography id="modal-modal-description"  align="left" variant="h6" component="h6">
+                Email :
               </Typography>
             </Grid>
-            <Grid item spacing={6}>
+            <Grid item md={6}>
+              <Typography id="modal-modal-description" variant="subtitle1">
               {users.email}
+              </Typography>
             </Grid>
           </Grid>
 
-          <Grid container>
-            <Grid item spacing={6}>
-              <span className="head3"> Phone :</span>
+          <Grid container spacing={12}>
+            <Grid item md={6}>
+            <Typography id="modal-modal-description"  align="left" variant="h6" component="h6">
+              Phone :
+            </Typography>
             </Grid>
-            <Grid item spacing={6}>
+            <Grid item md={6}>
+              <Typography id="modal-modal-description" variant="subtitle1">
               {users.phone}
+              </Typography>
             </Grid>
           </Grid>
           {/* <br/> */}
-          <Grid container>
-            <Grid item spacing={1}>
-              <Button onClick={handleClose} variant="contained" color="warning">
+          <Grid container spacing={12}>
+            <Grid item md={1}>
+              <Button onClick={handleClose} variant="contained" color="error">
                 Close
               </Button>
             </Grid>
+          </Grid>
+        </Box>
+
+      </Modal>
+
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Grid>
+          <Typography id="modal-modal-description" variant="subtitle1" align="center">
+            Are you sure wants to delete..!!
+          </Typography>
+          </Grid>
+            <br/>
+          <Grid container spacing={12}>
+              <Grid item md={6} className="gridsAlign">
+                <Button onClick={() => deleteRow(ids)} variant="contained" color="error">Confirm</Button>
+              </Grid>
+              <Grid item md={6} className="gridsAlign">
+                <Button onClick={handleClose1} variant="contained" color="success">Cancel</Button>
+              </Grid>
           </Grid>
         </Box>
       </Modal>

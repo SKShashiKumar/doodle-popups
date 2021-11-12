@@ -21,3 +21,7 @@ h1{
 .tableRows:nth-child(even){
     background-color: whitesmoke;
 }
+
+.gridsAlign{
+    margin-left: 5%;
+}
